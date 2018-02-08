@@ -6,7 +6,8 @@ import json
 
 
 def main():
-    _NEW_PYTHON_PATH = 'c:/python27/python'
+    _NEW_PYTHON_PATH = 'c:/python27/python' # UPDATE THIS TO PATH OF PYTHON WITH CUSTOM MODULES REQUIRED 
+    unwrap_path = 'PATH TO arin_whois_unwrap.py' # UPDATE THIS BEFORE IMPLEMENTATION
     _SPLUNK_PYTHON_PATH = os.environ['PYTHONPATH']
     os.environ['PYTHONPATH'] = _NEW_PYTHON_PATH 
     IP = sys.argv[1]
@@ -22,7 +23,7 @@ def main():
     w = csv.DictWriter(outfile, fieldnames=['IP','ASN','COUNTRY','ORG'])
     w.writeheader()
     for result in r:
-        my_process = os.path.join(os.getcwd(), 'd:/Program Files/Splunk/etc/apps/search/bin/arin_whois_unwrap.py')
+        my_process = os.path.join(os.getcwd(), unwrap_path)
         p = subprocess.Popen([os.environ['PYTHONPATH'], my_process, _SPLUNK_PYTHON_PATH, result[IP]], 
         stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         output = str(p.communicate()[0])
