@@ -6,7 +6,7 @@
 `pip install ipwhois` 
 
 ## Implementation 
-* **Copy scripts to splunk/etc/apps/search/bin**
+* **Copy scripts to {splunk root}/etc/apps/search/bin**
 * **Update arin_whois.py**
    * `_NEW_PYTHON_PATH = 'c:/python27/python' # UPDATE THIS TO PATH OF SEPERATE PYTHON INSTALL WITH CUSTOM MODULES REQUIRED`
    * `unwrap_path = 'FULLPATH TO arin_whois_unwrap.py' # UPDATE THIS BEFORE IMPLEMENTATION - LOCATION WHERE YOU COPIED THESE SCRIPTS (likely splunk/etc/app/search/bin/arin_whois_unwrap.py)`
