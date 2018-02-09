@@ -91,7 +91,7 @@ sql_create_iplookup_table = """CREATE TABLE IF NOT EXISTS iplookup (
                                     total_reports integer NOT NULL
                                 );"""
 
-sql_lite = 'ipdb_test.db'
+sql_lite = 'abuse_ipdb.db'
 db_conn = create_con(sql_lite)
 cur_time = str(datetime.now())
 if db_conn is not None:
@@ -105,23 +105,31 @@ if len(exist_data) > 0:
     update_data(db_conn, found_id, cur_time)
 else:
     lookup = api_req(IP,api_key)
-    add_data = (IP,lookup['country'],lookup['country_code'],cur_time,cur_time,lookup['latest_report'],str(lookup['white_list']),lookup['total_reports'])
-    res = insert_data(db_conn,add_data)
-    db_conn.commit()
+    if len(lookup) > 0:
+        add_data = (IP,lookup['country'],lookup['country_code'],cur_time,cur_time,lookup['latest_report'],str(lookup['white_list']),lookup['total_reports'])
+        res = insert_data(db_conn,add_data)
+        db_conn.commit()
+    else:
+        add_data = (IP,'N/A','N/A',cur_time,cur_time,'N/A','N/A','N/A')
+        res = insert_data(db_conn,add_data)
+        db_conn.commit()
 exist_data = select_ip(db_conn,IP)
-output['COUNTRY'] = exist_data[0][2]
-output['COUNTRY_CODE'] = exist_data[0][3]
-output['FIRST_SEEN'] = exist_data[0][4]
-output['LAST_SEEN'] = cur_time
-output['LATEST_REPORT'] = str(exist_data[0][6]).replace(',','')
+db_conn.close()
+output['COUNTRY'] = str(exist_data[0][2])
+output['COUNTRY_CODE'] = str(exist_data[0][3])
+output['FIRST_SEEN'] = str(exist_data[0][4])
+output['LAST_SEEN'] = str(cur_time)
+output['LATEST_REPORT'] = str(exist_data[0][6].replace(',',''))
 if exist_data[0][7] == 1:
     output['WHITE_LIST'] = 'True'
 elif exist_data[0][7] == 0:
     output['WHITE_LIST'] = 'False'
 else:
-    output['WHITE_LIST'] = 'Error getting data'
-output['TOTAL_REPORTS'] = exist_data[0][8]    
-
+    output['WHITE_LIST'] = str('N/A')
+if exist_data[0][8] == 'N/A':
+    output['TOTAL_REPORTS'] = str(exist_data[0][8])
+else:
+    output['TOTAL_REPORTS'] = exist_data[0][8]
 print output
 
 
