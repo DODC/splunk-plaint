@@ -112,7 +112,7 @@ output['COUNTRY'] = exist_data[0][2]
 output['COUNTRY_CODE'] = exist_data[0][3]
 output['FIRST_SEEN'] = exist_data[0][4]
 output['LAST_SEEN'] = cur_time
-output['LATEST_REPORT'] = exist_data[0][6]
+output['LATEST_REPORT'] = str(exist_data[0][6]).replace(',','')
 if exist_data[0][7] == 1:
     output['WHITE_LIST'] = 'True'
 elif exist_data[0][7] == 0:
