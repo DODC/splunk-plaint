@@ -107,7 +107,7 @@ else:
     add_data = (IP,lookup['country'],lookup['country_code'],cur_time,cur_time,lookup['latest_report'],str(lookup['white_list']),lookup['total_reports'])
     res = insert_data(db_conn,add_data)
     db_conn.commit()
-    exist_data = select_ip(db_conn,IP)
+exist_data = select_ip(db_conn,IP)
 output['COUNTRY'] = exist_data[0][2]
 output['COUNTRY_CODE'] = exist_data[0][3]
 output['FIRST_SEEN'] = exist_data[0][4]
