@@ -62,13 +62,22 @@ def api_req(IP,api_key):
             pass
         else:
             result['total_reports'] = len(data)
-            result['country'] = data[0]['country']
-            result['country_code'] = data[0]['isoCode']
-            result['latest_report'] = data[0]['created']
-            if data[0]['isWhitelisted'] == True:
-                result['white_list'] = 1
-            else:
-                result['white_list'] = 0
+            if type(data) is list:
+                result['country'] = str(data[0]['country'])
+                result['country_code'] = str(data[0]['isoCode'])
+                result['latest_report'] = str(data[0]['created'])
+                if data[0]['isWhitelisted'] == True:
+                    result['white_list'] = 1
+                else:
+                    result['white_list'] = 0
+            elif type(data) is dict:
+                result['country'] = str(data['country'])
+                result['country_code'] = str(data['isoCode'])
+                result['latest_report'] = str(data['created'])
+                if data['isWhitelisted'] == 'true':
+                    result['white_list'] = 1
+                else:
+                    result['white_list'] = 0
         return result
     except:
         #print 'Failed to get data'
