@@ -59,7 +59,7 @@ def api_req(IP,api_key):
     try:
         data = r.json()
         if not data:
-            print 'No Data Returned'
+            pass
         else:
             result['total_reports'] = len(data)
             result['country'] = data[0]['country']
@@ -71,7 +71,8 @@ def api_req(IP,api_key):
                 result['white_list'] = 0
         return result
     except:
-        print 'Failed to get data'
+        #print 'Failed to get data'
+        return result
 
 
 
